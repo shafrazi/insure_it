@@ -4,7 +4,7 @@ class Api::CustomersController < ApplicationController
   def index
     @customers = Customer.all
     
-    render json: CustomerSerializer.new(@customers).serializable_hash
+    render json: CustomerSerializer.new(@customers, {fields: {customer: [:id, :first_name, :last_name, :uid]}}).serializable_hash
   end
 
   def create
@@ -18,9 +18,9 @@ class Api::CustomersController < ApplicationController
 
   def show
     @customer = Customer.find(params[:id])
-    options = {}
-    options[:include] = [:insurance_policies]
-    render json: CustomerSerializer.new(@customer, options).serializable_hash
+    # options = {}
+    # options[:include] = [:insurance_policies]
+    render json: CustomerSerializer.new(@customer).serializable_hash
   end
 
   def update

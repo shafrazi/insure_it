@@ -6,4 +6,6 @@ Rails.application.routes.draw do
     resources :insurance_policies
     resources :renewals
   end
+
+  get "*path", to: "pages#index", via: :all
 end

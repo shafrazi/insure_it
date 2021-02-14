@@ -11,7 +11,7 @@ class Api::RenewalsController < ApplicationController
     @renewal = Renewal.new(renewal_params)
     if @renewal.save
       render json: @renewal
-    else
+    else 
       render json: {error: @renewal.errors.messages}, status: 422
     end
   end
