@@ -1,6 +1,5 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import Link from "@material-ui/core/Link";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -8,6 +7,7 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Title from "./Title";
+import { Paper, TableContainer } from "@material-ui/core";
 
 function preventDefault(event) {
   event.preventDefault();
@@ -39,32 +39,34 @@ export default function InsurancePolicies() {
     <React.Fragment>
       <Title>All insurance policies</Title>
       {isDataLoaded ? (
-        <Table size="small">
-          <TableHead>
-            <TableRow>
-              <TableCell>Customer name</TableCell>
-              <TableCell>Policy No</TableCell>
-              <TableCell>Insurer</TableCell>
-              <TableCell>Policy value</TableCell>
-              <TableCell>Type</TableCell>
-              <TableCell>Current expiry</TableCell>
-              <TableCell>Asset</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {insurancePolicies.map((policy) => (
-              <TableRow key={policy.id}>
-                <TableCell>{`${policy.attributes.customer.first_name} ${policy.attributes.customer.last_name}`}</TableCell>
-                <TableCell>{policy.attributes.policy_no}</TableCell>
-                <TableCell>{policy.attributes.insurer}</TableCell>
-                <TableCell>{policy.attributes.value}</TableCell>
-                <TableCell>{policy.attributes.insurance_type}</TableCell>
-                <TableCell>{policy.attributes.current_expiry}</TableCell>
-                <TableCell>{policy.attributes.asset}</TableCell>
+        <TableContainer component={Paper}>
+          <Table size="small">
+            <TableHead>
+              <TableRow>
+                <TableCell>Customer name</TableCell>
+                <TableCell>Policy No</TableCell>
+                <TableCell>Insurer</TableCell>
+                <TableCell>Policy value</TableCell>
+                <TableCell>Type</TableCell>
+                <TableCell>Current expiry</TableCell>
+                <TableCell>Asset</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHead>
+            <TableBody>
+              {insurancePolicies.map((policy) => (
+                <TableRow key={policy.id}>
+                  <TableCell>{policy.attributes.customer_name}</TableCell>
+                  <TableCell>{policy.attributes.policy_no}</TableCell>
+                  <TableCell>{policy.attributes.insurer}</TableCell>
+                  <TableCell>{policy.attributes.value}</TableCell>
+                  <TableCell>{policy.attributes.insurance_type}</TableCell>
+                  <TableCell>{policy.attributes.current_expiry}</TableCell>
+                  <TableCell>{policy.attributes.asset}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
       ) : (
         "Loading...."
       )}

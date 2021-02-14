@@ -4,7 +4,7 @@ class Api::InsurancePoliciesController < ApplicationController
   def index
     @insurance_policies = InsurancePolicy.all
     
-    render json: InsurancePolicySerializer.new(@insurance_policies).serializable_hash
+    render json: InsurancePolicySerializer.new(@insurance_policies, {fields: {insurance_policy: [:customer_name, :policy_no, :insurer, :value, :insurance_type, :current_expiry, :asset]}}).serializable_hash
   end
 
   def create
