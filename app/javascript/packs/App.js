@@ -14,6 +14,7 @@ import SideBar from "./components/SideBar";
 
 import Customers from "./components/Customers";
 import InsurancePolicies from "./components/InsurancePolicies";
+import InsurancePolicy from "./components/InsurancePolicy";
 
 function Copyright() {
   return (
@@ -133,7 +134,13 @@ export default function App() {
               <Customers />
             </Route>
             <Route exact path="/insurance_policies">
-              <InsurancePolicies />
+              <InsurancePolicies filterType="all" />
+            </Route>
+            <Route exact path="/expired_policies">
+              <InsurancePolicies filterType="expired" />
+            </Route>
+            <Route exact path="/insurance_policies/:id">
+              <InsurancePolicy />
             </Route>
           </Switch>
           <Box pt={4}>
