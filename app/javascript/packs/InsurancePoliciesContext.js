@@ -5,7 +5,7 @@ const InsurancePoliciesContext = React.createContext(null);
 
 function InsurancePoliciesContextProvider(props) {
   const [insurancePolicies, setInsurancePolicies] = useState([]);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isDataLoaded, setIsDataLoaded] = useState(false);
 
   useEffect(() => {
     fetch("/api/insurance_policies")
@@ -14,7 +14,7 @@ function InsurancePoliciesContextProvider(props) {
       })
       .then((response) => {
         setInsurancePolicies(response.data);
-        setIsLoaded(true);
+        setIsDataLoaded(true);
       });
   }, []);
 
@@ -22,7 +22,7 @@ function InsurancePoliciesContextProvider(props) {
     <InsurancePoliciesContext.Provider
       value={{
         insurancePolicies: insurancePolicies,
-        isLoaded: isLoaded,
+        isDataLoaded: isDataLoaded,
       }}
     >
       {props.children}
@@ -30,4 +30,4 @@ function InsurancePoliciesContextProvider(props) {
   );
 }
 
-export default { InsurancePoliciesContext, InsurancePoliciesContextProvider };
+export { InsurancePoliciesContext, InsurancePoliciesContextProvider };

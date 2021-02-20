@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -10,6 +10,7 @@ import Title from "./Title";
 import { Paper, TableContainer } from "@material-ui/core";
 import EditInsurancePolicy from "./EditInsurancePolicy";
 import PolicyTableData from "./PolicyTableData";
+import { InsurancePoliciesContext } from "../InsurancePoliciesContext";
 
 function preventDefault(event) {
   event.preventDefault();
@@ -23,23 +24,14 @@ const useStyles = makeStyles((theme) => ({
 
 export default function InsurancePolicies(props) {
   const classes = useStyles();
-  const [insurancePolicies, setInsurancePolicies] = useState([]);
-  const [isDataLoaded, setIsDataLoaded] = useState(false);
+  const { insurancePolicies, isDataLoaded } = useContext(
+    InsurancePoliciesContext
+  );
+
   const [open, setOpen] = useState(false);
   const [modalInsurancePolicy, setModalInsurancePolicy] = useState(null);
   const filterType = props.filterType;
   const today = new Date();
-
-  useEffect(() => {
-    fetch("/api/insurance_policies")
-      .then((response) => {
-        return response.json();
-      })
-      .then((response) => {
-        setInsurancePolicies(response.data);
-        setIsDataLoaded(true);
-      });
-  }, []);
 
   const handleClickOpen = (insurancePolicy) => {
     setModalInsurancePolicy(insurancePolicy);
