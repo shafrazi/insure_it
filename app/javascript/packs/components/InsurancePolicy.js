@@ -72,7 +72,10 @@ function InsurancePolicy() {
       {insurancePolicy ? (
         <Card>
           <CardContent>
-            <InsurancePolicyForm insurancePolicy={insurancePolicy} />
+            <InsurancePolicyForm
+              insurancePolicy={insurancePolicy}
+              isReadOnly={true}
+            />
             {insurancePolicy.attributes.renewals.length > 0 ? (
               <div>
                 <h3>Renewals</h3>

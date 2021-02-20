@@ -1,5 +1,6 @@
 import { TextField, makeStyles } from "@material-ui/core";
-import React from "react";
+import React, { useContext } from "react";
+import { InsurancePoliciesContext } from "../InsurancePoliciesContext";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -12,7 +13,8 @@ const useStyles = makeStyles((theme) => {
 });
 
 function InsurancePolicyForm(props) {
-  const { insurancePolicy } = props;
+  const { insurancePolicy, isReadOnly } = props;
+  const { handleChange } = useContext(InsurancePoliciesContext);
   const classes = useStyles();
 
   return (
@@ -20,6 +22,7 @@ function InsurancePolicyForm(props) {
       <h3>Insurance policy details</h3>
       <div>
         <TextField
+          name="customer_name"
           label="Policyholder"
           defaultValue={insurancePolicy.attributes.customer_name}
           InputProps={{
@@ -28,48 +31,58 @@ function InsurancePolicyForm(props) {
           variant="outlined"
         />
         <TextField
+          name="policy_no"
           label="Policy No."
           defaultValue={insurancePolicy.attributes.policy_no}
           InputProps={{
-            readOnly: true,
+            readOnly: isReadOnly,
           }}
           variant="outlined"
+          onChange={handleChange}
         />
         <TextField
+          name="insurer"
           label="Insurer"
           defaultValue={insurancePolicy.attributes.insurer}
           InputProps={{
-            readOnly: true,
+            readOnly: isReadOnly,
           }}
           variant="outlined"
+          onChange={handleChange}
         />
       </div>
       <div>
         <TextField
+          name="policy_value"
           label="Policy value"
           defaultValue={insurancePolicy.attributes.value}
           InputProps={{
-            readOnly: true,
+            readOnly: isReadOnly,
           }}
           variant="outlined"
+          onChange={handleChange}
         />
         <TextField
+          name="insurance_type"
           label="Insurance type"
           defaultValue={insurancePolicy.attributes.insurance_type}
           InputProps={{
-            readOnly: true,
+            readOnly: isReadOnly,
           }}
           variant="outlined"
+          onChange={handleChange}
         />
       </div>
       <div>
         <TextField
+          name="current_expiry"
           label="Current expiry"
           defaultValue={insurancePolicy.attributes.current_expiry}
           InputProps={{
-            readOnly: true,
+            readOnly: isReadOnly,
           }}
           variant="outlined"
+          onChange={handleChange}
         />
       </div>
     </form>

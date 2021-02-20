@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
@@ -7,9 +7,12 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import InsurancePolicyForm from "./InsurancePolicyForm";
+import { InsurancePoliciesContext } from "../InsurancePoliciesContext";
 
 export default function EditInsurancePolicy(props) {
-  const { open, handleClose, policy } = props;
+  const { open, handleClose, modalInsurancePolicy } = useContext(
+    InsurancePoliciesContext
+  );
   return (
     <Dialog
       open={open}
@@ -18,7 +21,10 @@ export default function EditInsurancePolicy(props) {
     >
       <DialogTitle id="form-dialog-title">Edit insurance policy</DialogTitle>
       <DialogContent>
-        <InsurancePolicyForm insurancePolicy={policy} />
+        <InsurancePolicyForm
+          insurancePolicy={modalInsurancePolicy}
+          isReadOnly={false}
+        />
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose} color="primary">

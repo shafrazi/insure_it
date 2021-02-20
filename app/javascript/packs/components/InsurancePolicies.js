@@ -12,10 +12,6 @@ import EditInsurancePolicy from "./EditInsurancePolicy";
 import PolicyTableData from "./PolicyTableData";
 import { InsurancePoliciesContext } from "../InsurancePoliciesContext";
 
-function preventDefault(event) {
-  event.preventDefault();
-}
-
 const useStyles = makeStyles((theme) => ({
   seeMore: {
     marginTop: theme.spacing(3),
@@ -24,24 +20,27 @@ const useStyles = makeStyles((theme) => ({
 
 export default function InsurancePolicies(props) {
   const classes = useStyles();
-  const { insurancePolicies, isDataLoaded } = useContext(
-    InsurancePoliciesContext
-  );
+  const {
+    insurancePolicies,
+    isDataLoaded,
+    modalInsurancePolicy,
+    handleClickOpen,
+  } = useContext(InsurancePoliciesContext);
 
-  const [open, setOpen] = useState(false);
-  const [modalInsurancePolicy, setModalInsurancePolicy] = useState(null);
+  // const [open, setOpen] = useState(false);
+  // const [modalInsurancePolicy, setModalInsurancePolicy] = useState(null);
   const filterType = props.filterType;
   const today = new Date();
 
-  const handleClickOpen = (insurancePolicy) => {
-    setModalInsurancePolicy(insurancePolicy);
-    setOpen(true);
-  };
+  // const handleClickOpen = (insurancePolicy) => {
+  //   setModalInsurancePolicy(insurancePolicy);
+  //   setOpen(true);
+  // };
 
-  const handleClose = () => {
-    setModalInsurancePolicy(null);
-    setOpen(false);
-  };
+  // const handleClose = () => {
+  //   setModalInsurancePolicy(null);
+  //   setOpen(false);
+  // };
 
   return (
     <React.Fragment>
@@ -86,13 +85,7 @@ export default function InsurancePolicies(props) {
                 }
               })}
             </TableBody>
-            {modalInsurancePolicy && (
-              <EditInsurancePolicy
-                open={open}
-                handleClose={handleClose}
-                policy={modalInsurancePolicy}
-              />
-            )}
+            {modalInsurancePolicy && <EditInsurancePolicy />}
           </Table>
         </TableContainer>
       ) : (
