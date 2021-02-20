@@ -7,8 +7,9 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Title from "./Title";
-import { Button, Paper, TableContainer } from "@material-ui/core";
-import { Link } from "react-router-dom";
+import { Paper, TableContainer } from "@material-ui/core";
+import EditInsurancePolicy from "./EditInsurancePolicy";
+import PolicyTableData from "./PolicyTableData";
 
 function preventDefault(event) {
   event.preventDefault();
@@ -24,6 +25,8 @@ export default function InsurancePolicies(props) {
   const classes = useStyles();
   const [insurancePolicies, setInsurancePolicies] = useState([]);
   const [isDataLoaded, setIsDataLoaded] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [modalInsurancePolicy, setModalInsurancePolicy] = useState(null);
   const filterType = props.filterType;
   const today = new Date();
 
@@ -37,6 +40,16 @@ export default function InsurancePolicies(props) {
         setIsDataLoaded(true);
       });
   }, []);
+
+  const handleClickOpen = (insurancePolicy) => {
+    setModalInsurancePolicy(insurancePolicy);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setModalInsurancePolicy(null);
+    setOpen(false);
+  };
 
   return (
     <React.Fragment>
@@ -62,63 +75,32 @@ export default function InsurancePolicies(props) {
               {insurancePolicies.map((policy) => {
                 if (filterType === "all") {
                   return (
-                    <TableRow key={policy.id}>
-                      <TableCell>{policy.attributes.customer_name}</TableCell>
-                      <TableCell>
-                        <Link to={`/insurance_policies/${policy.id}`}>
-                          {policy.attributes.policy_no}
-                        </Link>
-                      </TableCell>
-                      <TableCell>{policy.attributes.insurer}</TableCell>
-                      <TableCell>{policy.attributes.value}</TableCell>
-                      <TableCell>{policy.attributes.insurance_type}</TableCell>
-                      <TableCell>{policy.attributes.current_expiry}</TableCell>
-                      <TableCell>{policy.attributes.asset}</TableCell>
-                      <TableCell>
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          size="small"
-                        >
-                          Edit
-                        </Button>
-                      </TableCell>
-                    </TableRow>
+                    <PolicyTableData
+                      key={policy.id}
+                      policy={policy}
+                      handleClickOpen={handleClickOpen}
+                    />
                   );
                 } else {
                   if (new Date(policy.attributes.current_expiry) < today) {
                     return (
-                      <TableRow key={policy.id}>
-                        <TableCell>{policy.attributes.customer_name}</TableCell>
-                        <TableCell>
-                          <Link to={`/insurance_policies/${policy.id}`}>
-                            {policy.attributes.policy_no}
-                          </Link>
-                        </TableCell>
-                        <TableCell>{policy.attributes.insurer}</TableCell>
-                        <TableCell>{policy.attributes.value}</TableCell>
-                        <TableCell>
-                          {policy.attributes.insurance_type}
-                        </TableCell>
-                        <TableCell>
-                          {policy.attributes.current_expiry}
-                        </TableCell>
-                        <TableCell>{policy.attributes.asset}</TableCell>
-                        <TableCell>
-                          <Button
-                            variant="contained"
-                            color="primary"
-                            size="small"
-                          >
-                            Edit
-                          </Button>
-                        </TableCell>
-                      </TableRow>
+                      <PolicyTableData
+                        key={policy.id}
+                        policy={policy}
+                        handleClickOpen={handleClickOpen}
+                      />
                     );
                   }
                 }
               })}
             </TableBody>
+            {modalInsurancePolicy && (
+              <EditInsurancePolicy
+                open={open}
+                handleClose={handleClose}
+                policy={modalInsurancePolicy}
+              />
+            )}
           </Table>
         </TableContainer>
       ) : (

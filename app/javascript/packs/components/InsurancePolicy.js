@@ -12,6 +12,7 @@ import {
 } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import InsurancePolicyForm from "./InsurancePolicyForm";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -71,101 +72,45 @@ function InsurancePolicy() {
       {insurancePolicy ? (
         <Card>
           <CardContent>
-            <form className={classes.root}>
-              <h3>Insurance policy details</h3>
+            <InsurancePolicyForm insurancePolicy={insurancePolicy} />
+            {insurancePolicy.attributes.renewals.length > 0 ? (
               <div>
-                <TextField
-                  label="Policyholder"
-                  defaultValue={insurancePolicy.attributes.customer_name}
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                  variant="outlined"
-                />
-                <TextField
-                  label="Policy No."
-                  defaultValue={insurancePolicy.attributes.policy_no}
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                  variant="outlined"
-                />
-                <TextField
-                  label="Insurer"
-                  defaultValue={insurancePolicy.attributes.insurer}
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                  variant="outlined"
-                />
-              </div>
-              <div>
-                <TextField
-                  label="Policy value"
-                  defaultValue={insurancePolicy.attributes.value}
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                  variant="outlined"
-                />
-                <TextField
-                  label="Insurance type"
-                  defaultValue={insurancePolicy.attributes.insurance_type}
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                  variant="outlined"
-                />
-              </div>
-              <div>
-                <TextField
-                  label="Current expiry"
-                  defaultValue={insurancePolicy.attributes.current_expiry}
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                  variant="outlined"
-                />
-              </div>
-              {insurancePolicy.attributes.renewals.length > 0 ? (
-                <div>
-                  <h3>Renewals</h3>
-                  <Table size="small">
-                    <TableHead>
-                      <TableRow>
-                        <TableCell>Policy No</TableCell>
-                        <TableCell>Insurer</TableCell>
-                        <TableCell>Start date</TableCell>
-                        <TableCell>Expiry date</TableCell>
-                        <TableCell></TableCell>
+                <h3>Renewals</h3>
+                <Table size="small">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Policy No</TableCell>
+                      <TableCell>Insurer</TableCell>
+                      <TableCell>Start date</TableCell>
+                      <TableCell>Expiry date</TableCell>
+                      <TableCell></TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {insurancePolicy.attributes.renewals.map((renewal) => (
+                      <TableRow key={renewal.id}>
+                        <TableCell>{renewal.policy_no}</TableCell>
+                        <TableCell>{renewal.insurer}</TableCell>
+                        <TableCell>{renewal.start_date}</TableCell>
+                        <TableCell>{renewal.expiry_date}</TableCell>
+                        <TableCell>
+                          <Button
+                            variant="contained"
+                            color="secondary"
+                            size="small"
+                            onClick={() => {
+                              deleteRenewal(renewal);
+                            }}
+                          >
+                            Delete
+                          </Button>
+                        </TableCell>
                       </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {insurancePolicy.attributes.renewals.map((renewal) => (
-                        <TableRow key={renewal.id}>
-                          <TableCell>{renewal.policy_no}</TableCell>
-                          <TableCell>{renewal.insurer}</TableCell>
-                          <TableCell>{renewal.start_date}</TableCell>
-                          <TableCell>{renewal.expiry_date}</TableCell>
-                          <TableCell>
-                            <Button
-                              variant="contained"
-                              color="secondary"
-                              size="small"
-                              onClick={() => {
-                                deleteRenewal(renewal);
-                              }}
-                            >
-                              Delete
-                            </Button>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </div>
-              ) : null}
-            </form>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+            ) : null}
           </CardContent>
         </Card>
       ) : null}
