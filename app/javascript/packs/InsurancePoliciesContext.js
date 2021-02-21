@@ -42,6 +42,33 @@ function InsurancePoliciesContextProvider(props) {
     });
   };
 
+  const handleSubmit = (event) => {
+    const csrfToken = document.getElementsByName("csrf-token")[0].content;
+    event.preventDefault();
+
+    fetch(`/api/insurance_policies/${modalInsurancePolicy.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-type": "application/json",
+        "X-csrf-token": csrfToken,
+      },
+      body: JSON.stringify(modalInsurancePolicy.attributes),
+      credentials: "same-origin",
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((response) => {
+        const updatedPolicies = insurancePolicies.filter((policy) => {
+          return policy.id !== modalInsurancePolicy.id;
+        });
+
+        setInsurancePolicies((prevInsurancePolicies) => {
+          return [...updatedPolicies, modalInsurancePolicy];
+        });
+      });
+  };
+
   return (
     <InsurancePoliciesContext.Provider
       value={{
@@ -52,6 +79,7 @@ function InsurancePoliciesContextProvider(props) {
         handleClose: handleClose,
         open: open,
         modalInsurancePolicy: modalInsurancePolicy,
+        handleSubmit: handleSubmit,
       }}
     >
       {props.children}

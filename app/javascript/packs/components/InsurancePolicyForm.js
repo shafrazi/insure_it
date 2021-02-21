@@ -1,4 +1,4 @@
-import { TextField, makeStyles } from "@material-ui/core";
+import { TextField, makeStyles, Button } from "@material-ui/core";
 import React, { useContext } from "react";
 import { InsurancePoliciesContext } from "../InsurancePoliciesContext";
 
@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => {
 
 function InsurancePolicyForm(props) {
   const { insurancePolicy, isReadOnly } = props;
-  const { handleChange } = useContext(InsurancePoliciesContext);
+  const { handleChange, handleSubmit } = useContext(InsurancePoliciesContext);
   const classes = useStyles();
 
   return (
@@ -85,6 +85,18 @@ function InsurancePolicyForm(props) {
           onChange={handleChange}
         />
       </div>
+      {!isReadOnly && (
+        <div>
+          <Button
+            variant="contained"
+            color="primary"
+            size="small"
+            onClick={handleSubmit}
+          >
+            Submit
+          </Button>
+        </div>
+      )}
     </form>
   );
 }

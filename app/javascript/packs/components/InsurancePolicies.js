@@ -27,20 +27,8 @@ export default function InsurancePolicies(props) {
     handleClickOpen,
   } = useContext(InsurancePoliciesContext);
 
-  // const [open, setOpen] = useState(false);
-  // const [modalInsurancePolicy, setModalInsurancePolicy] = useState(null);
   const filterType = props.filterType;
   const today = new Date();
-
-  // const handleClickOpen = (insurancePolicy) => {
-  //   setModalInsurancePolicy(insurancePolicy);
-  //   setOpen(true);
-  // };
-
-  // const handleClose = () => {
-  //   setModalInsurancePolicy(null);
-  //   setOpen(false);
-  // };
 
   return (
     <React.Fragment>

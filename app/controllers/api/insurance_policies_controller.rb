@@ -45,6 +45,6 @@ class Api::InsurancePoliciesController < ApplicationController
   end
 
   def insurance_policy_params
-    params.require(:insurance_policy).permit(:policy_no, :insurer, :value, :insurance_type, :current_expiry, :asset, :customer_id)
+    params.require(:insurance_policy).permit(:id, :policy_no, :insurer, :value, :insurance_type, :current_expiry, :asset, :customer_id, :customer_name)
   end
 end
