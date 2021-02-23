@@ -8,13 +8,15 @@ import InsurancePolicyForm from "./InsurancePolicyForm";
 import { InsurancePoliciesContext } from "../InsurancePoliciesContext";
 
 export default function EditInsurancePolicy(props) {
-  const { open, handleClose, modalInsurancePolicy } = useContext(
-    InsurancePoliciesContext
-  );
+  const {
+    openEditModal,
+    handleCloseEditModal,
+    modalInsurancePolicy,
+  } = useContext(InsurancePoliciesContext);
   return (
     <Dialog
-      open={open}
-      onClose={handleClose}
+      open={openEditModal}
+      onClose={handleCloseEditModal}
       aria-labelledby="form-dialog-title"
     >
       <DialogTitle id="form-dialog-title">Edit insurance policy</DialogTitle>
@@ -24,14 +26,6 @@ export default function EditInsurancePolicy(props) {
           isReadOnly={false}
         />
       </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose} color="primary">
-          Cancel
-        </Button>
-        <Button onClick={handleClose} color="primary">
-          Subscribe
-        </Button>
-      </DialogActions>
     </Dialog>
   );
 }

@@ -1,4 +1,9 @@
-import { TextField, makeStyles, Button } from "@material-ui/core";
+import {
+  TextField,
+  makeStyles,
+  Button,
+  DialogActions,
+} from "@material-ui/core";
 import React, { useContext } from "react";
 import { InsurancePoliciesContext } from "../InsurancePoliciesContext";
 
@@ -86,16 +91,16 @@ function InsurancePolicyForm(props) {
         />
       </div>
       {!isReadOnly && (
-        <div>
+        <DialogActions>
           <Button
             variant="contained"
             color="primary"
-            size="small"
+            size="large"
             onClick={handleSubmit}
           >
             Submit
           </Button>
-        </div>
+        </DialogActions>
       )}
     </form>
   );

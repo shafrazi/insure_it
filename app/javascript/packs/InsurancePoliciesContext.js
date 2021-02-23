@@ -5,7 +5,9 @@ const InsurancePoliciesContext = React.createContext(null);
 
 function InsurancePoliciesContextProvider(props) {
   const [insurancePolicies, setInsurancePolicies] = useState([]);
-  const [open, setOpen] = useState(false);
+  const [renewal, setRenewal] = useState(null);
+  const [openEditModal, setOpenEditModal] = useState(false);
+  const [openRenewalModal, setOpenRenewalModal] = useState(false);
   const [modalInsurancePolicy, setModalInsurancePolicy] = useState(null);
   const [isDataLoaded, setIsDataLoaded] = useState(false);
 
@@ -20,14 +22,30 @@ function InsurancePoliciesContextProvider(props) {
       });
   }, []);
 
-  const handleClickOpen = (insurancePolicy) => {
+  const handleClickOpenEditModal = (insurancePolicy) => {
     setModalInsurancePolicy(insurancePolicy);
-    setOpen(true);
+    setOpenEditModal(true);
   };
 
-  const handleClose = () => {
+  const handleCloseEditModal = () => {
     setModalInsurancePolicy(null);
-    setOpen(false);
+    setOpenEditModal(false);
+  };
+
+  const handleClickOpenRenewalModal = (insurancePolicy) => {
+    setModalInsurancePolicy(insurancePolicy);
+    setOpenRenewalModal(true);
+    setRenewal({
+      insurance_policy_id: insurancePolicy.id,
+      policy_no: insurancePolicy.attributes.policy_no,
+      insurer: insurancePolicy.attributes.insurer,
+      start_date: insurancePolicy.attributes.current_expiry,
+    });
+  };
+
+  const handleCloseRenewalModal = () => {
+    setModalInsurancePolicy(null);
+    setOpenRenewalModal(false);
   };
 
   const handleChange = (event) => {
@@ -38,6 +56,15 @@ function InsurancePoliciesContextProvider(props) {
           ...prevInsurancePolicy.attributes,
           [event.target.name]: event.target.value,
         },
+      };
+    });
+  };
+
+  const handleChangeRenewalForm = (event) => {
+    setRenewal((prevRenewal) => {
+      return {
+        ...prevRenewal,
+        [event.target.name]: event.target.value,
       };
     });
   };
@@ -69,17 +96,37 @@ function InsurancePoliciesContextProvider(props) {
       });
   };
 
+  const handleSubmitRenewal = (event) => {
+    const csrfToken = document.getElementsByName("csrf-token")[0].content;
+    event.preventDefault();
+
+    fetch("/api/renewals", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+        "X-csrf-token": csrfToken,
+      },
+      body: JSON.stringify(renewal),
+      credentials: "same-origin",
+    });
+  };
+
   return (
     <InsurancePoliciesContext.Provider
       value={{
         insurancePolicies: insurancePolicies,
         isDataLoaded: isDataLoaded,
         handleChange: handleChange,
-        handleClickOpen: handleClickOpen,
-        handleClose: handleClose,
-        open: open,
+        handleClickOpenEditModal: handleClickOpenEditModal,
+        handleCloseEditModal: handleCloseEditModal,
+        openEditModal: openEditModal,
         modalInsurancePolicy: modalInsurancePolicy,
         handleSubmit: handleSubmit,
+        openRenewalModal: openRenewalModal,
+        handleClickOpenRenewalModal: handleClickOpenRenewalModal,
+        handleCloseRenewalModal: handleCloseRenewalModal,
+        handleChangeRenewalForm: handleChangeRenewalForm,
+        handleSubmitRenewal: handleSubmitRenewal,
       }}
     >
       {props.children}

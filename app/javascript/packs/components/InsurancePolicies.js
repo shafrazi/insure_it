@@ -9,6 +9,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Title from "./Title";
 import { Paper, TableContainer } from "@material-ui/core";
 import EditInsurancePolicy from "./EditInsurancePolicy";
+import RenewalFormModal from "./RenewalFormModal";
 import PolicyTableData from "./PolicyTableData";
 import { InsurancePoliciesContext } from "../InsurancePoliciesContext";
 
@@ -24,7 +25,8 @@ export default function InsurancePolicies(props) {
     insurancePolicies,
     isDataLoaded,
     modalInsurancePolicy,
-    handleClickOpen,
+    handleClickOpenEditModal,
+    handleClickOpenRenewalModal,
   } = useContext(InsurancePoliciesContext);
 
   const filterType = props.filterType;
@@ -48,6 +50,7 @@ export default function InsurancePolicies(props) {
                 <TableCell>Current expiry</TableCell>
                 <TableCell>Asset</TableCell>
                 <TableCell></TableCell>
+                <TableCell></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -57,7 +60,8 @@ export default function InsurancePolicies(props) {
                     <PolicyTableData
                       key={policy.id}
                       policy={policy}
-                      handleClickOpen={handleClickOpen}
+                      handleClickOpenEditModal={handleClickOpenEditModal}
+                      handleClickOpenRenewalModal={handleClickOpenRenewalModal}
                     />
                   );
                 } else {
@@ -66,7 +70,10 @@ export default function InsurancePolicies(props) {
                       <PolicyTableData
                         key={policy.id}
                         policy={policy}
-                        handleClickOpen={handleClickOpen}
+                        handleClickOpenEditModal={handleClickOpenEditModal}
+                        handleClickOpenRenewalModal={
+                          handleClickOpenRenewalModal
+                        }
                       />
                     );
                   }
@@ -74,6 +81,7 @@ export default function InsurancePolicies(props) {
               })}
             </TableBody>
             {modalInsurancePolicy && <EditInsurancePolicy />}
+            {modalInsurancePolicy && <RenewalFormModal />}
           </Table>
         </TableContainer>
       ) : (

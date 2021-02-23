@@ -3,7 +3,11 @@ import { TableRow, TableCell, Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
 
 function PolicyTableData(props) {
-  const { policy, handleClickOpen } = props;
+  const {
+    policy,
+    handleClickOpenEditModal,
+    handleClickOpenRenewalModal,
+  } = props;
   return (
     <TableRow>
       <TableCell>{policy.attributes.customer_name}</TableCell>
@@ -23,10 +27,22 @@ function PolicyTableData(props) {
           color="primary"
           size="small"
           onClick={() => {
-            handleClickOpen(policy);
+            handleClickOpenEditModal(policy);
           }}
         >
           Edit
+        </Button>
+      </TableCell>
+      <TableCell>
+        <Button
+          variant="outlined"
+          color="primary"
+          size="small"
+          onClick={() => {
+            handleClickOpenRenewalModal(policy);
+          }}
+        >
+          Renew
         </Button>
       </TableCell>
     </TableRow>
