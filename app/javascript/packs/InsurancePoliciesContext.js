@@ -10,6 +10,7 @@ function InsurancePoliciesContextProvider(props) {
   const [openRenewalModal, setOpenRenewalModal] = useState(false);
   const [modalInsurancePolicy, setModalInsurancePolicy] = useState(null);
   const [isDataLoaded, setIsDataLoaded] = useState(false);
+  const [testAttribute, setTestAttribute] = useState(null);
 
   useEffect(() => {
     fetch("/api/insurance_policies")
@@ -40,6 +41,7 @@ function InsurancePoliciesContextProvider(props) {
       policy_no: insurancePolicy.attributes.policy_no,
       insurer: insurancePolicy.attributes.insurer,
       start_date: insurancePolicy.attributes.current_expiry,
+      expiry_date: "",
     });
   };
 
@@ -86,12 +88,14 @@ function InsurancePoliciesContextProvider(props) {
         return response.json();
       })
       .then((response) => {
+        setModalInsurancePolicy(response.data);
+
         const updatedPolicies = insurancePolicies.filter((policy) => {
           return policy.id !== modalInsurancePolicy.id;
         });
 
         setInsurancePolicies((prevInsurancePolicies) => {
-          return [...updatedPolicies, modalInsurancePolicy];
+          return [modalInsurancePolicy, ...updatedPolicies];
         });
       });
   };
@@ -108,7 +112,29 @@ function InsurancePoliciesContextProvider(props) {
       },
       body: JSON.stringify(renewal),
       credentials: "same-origin",
-    });
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((response) => {
+        setModalInsurancePolicy((prevModalInsurancePolicy) => {
+          return {
+            ...prevModalInsurancePolicy,
+            attributes: {
+              ...prevModalInsurancePolicy.attributes,
+              insurer: renewal.insurer,
+              policy_no: renewal.policy_no,
+              current_expiry: renewal.expiry_date,
+            },
+          };
+        });
+
+        const updatedPolicies = insurancePolicies.filter((policy) => {
+          return policy.id !== modalInsurancePolicy.id;
+        });
+
+        setInsurancePolicies([...updatedPolicies, modalInsurancePolicy]);
+      });
   };
 
   return (

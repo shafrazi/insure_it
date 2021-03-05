@@ -22,7 +22,7 @@ insurance_types = ["Fire", "Motor"]
   policy = InsurancePolicy.create(policy_no: start_policy_no, insurer: insurer, value: rand(1000000..20000000).round(-1), insurance_type: insurance_types.sample, current_expiry: current_expiry, customer: customer )
   
   4.times do |j|
-    Renewal.create(policy_no: start_policy_no, start_date: current_expiry, expiry_date: current_expiry + 1.year, insurance_policy: policy)
+    Renewal.create(policy_no: start_policy_no, start_date: current_expiry, expiry_date: current_expiry + 1.year, insurance_policy: policy, insurer: insurer)
   end
   start_policy_no = start_policy_no + 399
 end

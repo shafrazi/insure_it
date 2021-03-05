@@ -2,7 +2,7 @@ class Api::InsurancePoliciesController < ApplicationController
   before_action :set_insurance_policy, only: [:show, :update]
   protect_from_forgery with: :null_session
   def index
-    @insurance_policies = InsurancePolicy.all
+    @insurance_policies = InsurancePolicy.order(current_expiry: :asc)
     
     render json: InsurancePolicySerializer.new(@insurance_policies, {fields: {insurance_policy: [:customer_name, :policy_no, :insurer, :value, :insurance_type, :current_expiry, :asset]}}).serializable_hash
   end
@@ -12,7 +12,7 @@ class Api::InsurancePoliciesController < ApplicationController
     if @insurance_policy.save
       render json: @insurance_policy
     else
-      render json: {error: @insurance_policy.errors.messages}, status: 422
+      render json: {error: @insurance_policy.errors.full_messages}, status: 422
     end
   end
 
@@ -24,7 +24,7 @@ class Api::InsurancePoliciesController < ApplicationController
     if @insurance_policy.update(insurance_policy_params)
       render json: InsurancePolicySerializer.new(@insurance_policy).serializable_hash
     else
-      render json: {error: @insurance_policy.errors.messages}, status: 422
+      render json: {error: @insurance_policy.errors.full_messages}, status: 422
     end
   end
 

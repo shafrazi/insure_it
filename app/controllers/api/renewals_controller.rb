@@ -12,7 +12,7 @@ class Api::RenewalsController < ApplicationController
     if @renewal.save
       render json: @renewal
     else 
-      render json: {error: @renewal.errors.messages}, status: 422
+      render json: {error: @renewal.errors.full_messages}, status: 422
     end
   end
 
@@ -24,7 +24,7 @@ class Api::RenewalsController < ApplicationController
     if @renewal.update(renewal_params)
       render json: RenewalSerializer.new(@renewal).serializable_hash
     else
-      render json: {error: @renewal.errors.messages}, status: 422
+      render json: {error: @renewal.errors.full_messages}, status: 422
     end
   end
 

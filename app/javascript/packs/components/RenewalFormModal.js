@@ -36,7 +36,7 @@ function RenewalFormModal() {
       <DialogTitle id="form-dialog-title">Add insurance policy</DialogTitle>
       <DialogContent>
         <h3>{modalInsurancePolicy.attributes.customer_name}</h3>
-        <form className={classes.root}>
+        <form className={classes.root} onSubmit={handleSubmitRenewal}>
           <div>
             <TextField
               name="policy_no"
@@ -73,7 +73,7 @@ function RenewalFormModal() {
               variant="contained"
               color="primary"
               size="large"
-              onClick={handleSubmitRenewal}
+              type="submit"
             >
               Submit
             </Button>
