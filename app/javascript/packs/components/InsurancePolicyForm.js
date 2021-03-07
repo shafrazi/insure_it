@@ -80,6 +80,16 @@ function InsurancePolicyForm(props) {
       </div>
       <div>
         <TextField
+          name="asset"
+          label="Asset"
+          value={insurancePolicy.attributes.asset || ""}
+          InputProps={{
+            readOnly: isReadOnly,
+          }}
+          variant="outlined"
+          onChange={handleChange}
+        />
+        <TextField
           name="current_expiry"
           label="Current expiry"
           value={insurancePolicy.attributes.current_expiry}
