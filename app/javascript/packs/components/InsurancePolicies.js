@@ -32,8 +32,6 @@ export default function InsurancePolicies(props) {
   const filterType = props.filterType;
   const today = new Date();
 
-  console.log(modalInsurancePolicy);
-
   return (
     <React.Fragment>
       <Title>

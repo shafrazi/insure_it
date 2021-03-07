@@ -1,7 +1,6 @@
 import {
   Card,
   CardContent,
-  TextField,
   makeStyles,
   Table,
   TableHead,
@@ -27,7 +26,8 @@ const useStyles = makeStyles((theme) => {
 function InsurancePolicy() {
   const { id } = useParams();
   const [insurancePolicy, setInsurancePolicy] = useState(null);
-  const classes = useStyles();
+  const [renewals, setRenewals] = useState([]);
+  const [isDeleted, setIsDeleted] = useState(false);
 
   useEffect(() => {
     fetch(`/api/insurance_policies/${id}`)
@@ -36,8 +36,11 @@ function InsurancePolicy() {
       })
       .then((response) => {
         setInsurancePolicy(response.data);
+
+        setRenewals(response.data.attributes.renewals);
+        setIsDeleted(false);
       });
-  }, []);
+  }, [isDeleted]);
 
   const deleteRenewal = (renewal) => {
     fetch(`/api/renewals/${renewal.id}`, {
@@ -49,21 +52,15 @@ function InsurancePolicy() {
       .then((response) => {
         return response;
       })
-      .then(() => {
-        const updatedRenewalsArr = insurancePolicy.attributes.renewals.filter(
-          (record) => {
-            return record.id !== renewal.id;
-          }
-        );
-        setInsurancePolicy((prevInsurancePolicy) => {
-          return {
-            ...prevInsurancePolicy,
-            attributes: {
-              ...prevInsurancePolicy.attributes,
-              renewals: updatedRenewalsArr,
-            },
-          };
+      .then((response) => {
+        const updatedRenewalsArr = renewals.filter((record) => {
+          return record.id !== renewal.id;
         });
+
+        setRenewals((prevRenewals) => {
+          return [...updatedRenewalsArr];
+        });
+        setIsDeleted(true);
       });
   };
 
@@ -76,7 +73,8 @@ function InsurancePolicy() {
               insurancePolicy={insurancePolicy}
               isReadOnly={true}
             />
-            {insurancePolicy.attributes.renewals.length > 0 ? (
+
+            {renewals.length > 0 ? (
               <div>
                 <h3>Renewals</h3>
                 <Table size="small">
@@ -90,7 +88,7 @@ function InsurancePolicy() {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {insurancePolicy.attributes.renewals.map((renewal) => (
+                    {renewals.map((renewal) => (
                       <TableRow key={renewal.id}>
                         <TableCell>{renewal.policy_no}</TableCell>
                         <TableCell>{renewal.insurer}</TableCell>

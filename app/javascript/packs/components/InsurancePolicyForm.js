@@ -29,7 +29,7 @@ function InsurancePolicyForm(props) {
         <TextField
           name="customer_name"
           label="Policyholder"
-          defaultValue={insurancePolicy.attributes.customer_name}
+          value={insurancePolicy.attributes.customer_name}
           InputProps={{
             readOnly: true,
           }}
@@ -38,7 +38,7 @@ function InsurancePolicyForm(props) {
         <TextField
           name="policy_no"
           label="Policy No."
-          defaultValue={insurancePolicy.attributes.policy_no}
+          value={insurancePolicy.attributes.policy_no}
           InputProps={{
             readOnly: isReadOnly,
           }}
@@ -48,7 +48,7 @@ function InsurancePolicyForm(props) {
         <TextField
           name="insurer"
           label="Insurer"
-          defaultValue={insurancePolicy.attributes.insurer}
+          value={insurancePolicy.attributes.insurer}
           InputProps={{
             readOnly: isReadOnly,
           }}
@@ -60,7 +60,7 @@ function InsurancePolicyForm(props) {
         <TextField
           name="policy_value"
           label="Policy value"
-          defaultValue={insurancePolicy.attributes.value}
+          value={insurancePolicy.attributes.value}
           InputProps={{
             readOnly: isReadOnly,
           }}
@@ -70,7 +70,7 @@ function InsurancePolicyForm(props) {
         <TextField
           name="insurance_type"
           label="Insurance type"
-          defaultValue={insurancePolicy.attributes.insurance_type}
+          value={insurancePolicy.attributes.insurance_type}
           InputProps={{
             readOnly: isReadOnly,
           }}
@@ -82,7 +82,7 @@ function InsurancePolicyForm(props) {
         <TextField
           name="current_expiry"
           label="Current expiry"
-          defaultValue={insurancePolicy.attributes.current_expiry}
+          value={insurancePolicy.attributes.current_expiry}
           InputProps={{
             readOnly: isReadOnly,
           }}

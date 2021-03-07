@@ -10,7 +10,6 @@ function InsurancePoliciesContextProvider(props) {
   const [openRenewalModal, setOpenRenewalModal] = useState(false);
   const [modalInsurancePolicy, setModalInsurancePolicy] = useState(null);
   const [isDataLoaded, setIsDataLoaded] = useState(false);
-  const [testAttribute, setTestAttribute] = useState(null);
 
   useEffect(() => {
     fetch("/api/insurance_policies")
