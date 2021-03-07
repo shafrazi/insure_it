@@ -21,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function InsurancePolicies(props) {
   const classes = useStyles();
+
   const {
     insurancePolicies,
     isDataLoaded,
@@ -37,6 +38,7 @@ export default function InsurancePolicies(props) {
       <Title>
         {filterType === "all" ? "All insurance policies" : "Expired policies"}
       </Title>
+
       {isDataLoaded ? (
         <TableContainer component={Paper}>
           <Table size="small">

@@ -10,6 +10,7 @@ function InsurancePoliciesContextProvider(props) {
   const [openRenewalModal, setOpenRenewalModal] = useState(false);
   const [modalInsurancePolicy, setModalInsurancePolicy] = useState(null);
   const [isDataLoaded, setIsDataLoaded] = useState(false);
+  const [isRenewed, setIsRenewed] = useState(false);
 
   useEffect(() => {
     fetch("/api/insurance_policies")
@@ -21,6 +22,18 @@ function InsurancePoliciesContextProvider(props) {
         setIsDataLoaded(true);
       });
   }, []);
+
+  useEffect(() => {
+    setInsurancePolicies((prevInsurancePolicies) => {
+      const updatedPolicies = prevInsurancePolicies.filter((policy) => {
+        return policy.id !== modalInsurancePolicy.id;
+      });
+
+      return [modalInsurancePolicy, ...updatedPolicies];
+    });
+
+    setIsRenewed(false);
+  }, [isRenewed]);
 
   const handleClickOpenEditModal = (insurancePolicy) => {
     setModalInsurancePolicy(insurancePolicy);
@@ -116,6 +129,7 @@ function InsurancePoliciesContextProvider(props) {
         return response.json();
       })
       .then((response) => {
+        setRenewal(response);
         setModalInsurancePolicy((prevModalInsurancePolicy) => {
           return {
             ...prevModalInsurancePolicy,
@@ -128,11 +142,7 @@ function InsurancePoliciesContextProvider(props) {
           };
         });
 
-        const updatedPolicies = insurancePolicies.filter((policy) => {
-          return policy.id !== modalInsurancePolicy.id;
-        });
-
-        setInsurancePolicies([...updatedPolicies, modalInsurancePolicy]);
+        setIsRenewed(true);
       });
   };
 

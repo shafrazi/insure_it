@@ -8,6 +8,7 @@ function PolicyTableData(props) {
     handleClickOpenEditModal,
     handleClickOpenRenewalModal,
   } = props;
+
   return (
     <TableRow>
       <TableCell>{policy.attributes.customer_name}</TableCell>
