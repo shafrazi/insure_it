@@ -5,12 +5,14 @@ const InsurancePoliciesContext = React.createContext(null);
 
 function InsurancePoliciesContextProvider(props) {
   const [insurancePolicies, setInsurancePolicies] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [queryResults, setQueryResults] = useState([]);
   const [renewal, setRenewal] = useState(null);
   const [openEditModal, setOpenEditModal] = useState(false);
   const [openRenewalModal, setOpenRenewalModal] = useState(false);
   const [modalInsurancePolicy, setModalInsurancePolicy] = useState(null);
   const [isDataLoaded, setIsDataLoaded] = useState(false);
-  const [isRenewed, setIsRenewed] = useState(false);
+  const [isChanged, setIsChanged] = useState(false);
 
   useEffect(() => {
     fetch("/api/insurance_policies")
@@ -19,6 +21,7 @@ function InsurancePoliciesContextProvider(props) {
       })
       .then((response) => {
         setInsurancePolicies(response.data);
+        setQueryResults(response.data);
         setIsDataLoaded(true);
       });
   }, []);
@@ -32,8 +35,41 @@ function InsurancePoliciesContextProvider(props) {
       return [modalInsurancePolicy, ...updatedPolicies];
     });
 
-    setIsRenewed(false);
-  }, [isRenewed]);
+    setQueryResults((prevQueryResults) => {
+      const updatedPolicies = prevQueryResults.filter((policy) => {
+        return policy.id !== modalInsurancePolicy.id;
+      });
+
+      return [modalInsurancePolicy, ...updatedPolicies];
+    });
+
+    setIsChanged(false);
+  }, [isChanged]);
+
+  const handleChangeSearch = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
+  const search = (query, array) => {
+    const newArray = array.filter((policy) => {
+      return (
+        policy.attributes.customer_name.toLowerCase().match(query) ||
+        policy.attributes.insurer.toLowerCase().match(query) ||
+        policy.attributes.policy_no.match(query)
+      );
+    });
+    return newArray;
+  };
+
+  const handleClickSearch = () => {
+    const result = search(searchQuery, insurancePolicies);
+    setQueryResults(result);
+  };
+
+  const handleClickRefresh = () => {
+    setQueryResults(insurancePolicies);
+    setSearchQuery("");
+  };
 
   const handleClickOpenEditModal = (insurancePolicy) => {
     setModalInsurancePolicy(insurancePolicy);
@@ -102,13 +138,7 @@ function InsurancePoliciesContextProvider(props) {
       .then((response) => {
         setModalInsurancePolicy(response.data);
 
-        const updatedPolicies = insurancePolicies.filter((policy) => {
-          return policy.id !== modalInsurancePolicy.id;
-        });
-
-        setInsurancePolicies((prevInsurancePolicies) => {
-          return [modalInsurancePolicy, ...updatedPolicies];
-        });
+        setIsChanged(true);
       });
   };
 
@@ -142,7 +172,7 @@ function InsurancePoliciesContextProvider(props) {
           };
         });
 
-        setIsRenewed(true);
+        setIsChanged(true);
       });
   };
 
@@ -162,6 +192,11 @@ function InsurancePoliciesContextProvider(props) {
         handleCloseRenewalModal: handleCloseRenewalModal,
         handleChangeRenewalForm: handleChangeRenewalForm,
         handleSubmitRenewal: handleSubmitRenewal,
+        queryResults: queryResults,
+        handleChangeSearch: handleChangeSearch,
+        handleClickSearch: handleClickSearch,
+        searchQuery: searchQuery,
+        handleClickRefresh: handleClickRefresh,
       }}
     >
       {props.children}

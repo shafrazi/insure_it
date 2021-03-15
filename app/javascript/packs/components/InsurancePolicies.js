@@ -7,7 +7,7 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Title from "./Title";
-import { Paper, TableContainer } from "@material-ui/core";
+import { Button, Paper, TableContainer, TextField } from "@material-ui/core";
 import EditInsurancePolicy from "./EditInsurancePolicy";
 import RenewalFormModal from "./RenewalFormModal";
 import PolicyTableData from "./PolicyTableData";
@@ -17,17 +17,29 @@ const useStyles = makeStyles((theme) => ({
   seeMore: {
     marginTop: theme.spacing(3),
   },
+  root: {
+    "& .MuiTextField-root": {
+      margin: theme.spacing(1),
+    },
+    "& > *": {
+      margin: theme.spacing(1),
+    },
+  },
 }));
 
 export default function InsurancePolicies(props) {
   const classes = useStyles();
 
   const {
-    insurancePolicies,
+    queryResults,
     isDataLoaded,
     modalInsurancePolicy,
     handleClickOpenEditModal,
     handleClickOpenRenewalModal,
+    handleChangeSearch,
+    handleClickSearch,
+    searchQuery,
+    handleClickRefresh,
   } = useContext(InsurancePoliciesContext);
 
   const filterType = props.filterType;
@@ -38,6 +50,27 @@ export default function InsurancePolicies(props) {
       <Title>
         {filterType === "all" ? "All insurance policies" : "Expired policies"}
       </Title>
+
+      <div className={classes.root}>
+        <TextField
+          name="query"
+          label="Enter search criteria"
+          variant="outlined"
+          value={searchQuery}
+          onChange={handleChangeSearch}
+          size="small"
+        />
+        <Button variant="contained" color="primary" onClick={handleClickSearch}>
+          Search
+        </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleClickRefresh}
+        >
+          Refresh
+        </Button>
+      </div>
 
       {isDataLoaded ? (
         <TableContainer component={Paper}>
@@ -56,7 +89,7 @@ export default function InsurancePolicies(props) {
               </TableRow>
             </TableHead>
             <TableBody>
-              {insurancePolicies.map((policy) => {
+              {queryResults.map((policy) => {
                 if (filterType === "all") {
                   return (
                     <PolicyTableData

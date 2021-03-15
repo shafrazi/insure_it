@@ -15,6 +15,7 @@ import SideBar from "./components/SideBar";
 import Customers from "./components/Customers";
 import InsurancePolicies from "./components/InsurancePolicies";
 import InsurancePolicy from "./components/InsurancePolicy";
+import PolicyData from "./components/PolicyData";
 
 function Copyright() {
   return (

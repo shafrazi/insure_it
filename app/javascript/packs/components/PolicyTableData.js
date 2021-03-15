@@ -10,7 +10,7 @@ function PolicyTableData(props) {
   } = props;
 
   return (
-    <TableRow>
+    <TableRow hover>
       <TableCell>{policy.attributes.customer_name}</TableCell>
       <TableCell>
         <Link to={`/insurance_policies/${policy.id}`}>
