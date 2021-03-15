@@ -13,7 +13,7 @@ insurers = ["Ceylinco Insurance", "Union Assurance", "Allianz Insurance", "Softl
 insurance_types = ["Fire", "Motor"]
 
 
-50.times do |i|
+1000.times do |i|
   customer = Customer.create(uid: start_uid, first_name: Faker::Name.first_name, last_name: Faker::Name.last_name)
   start_uid = start_uid + 345464565
 
