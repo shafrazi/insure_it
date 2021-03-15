@@ -1,16 +1,32 @@
 import React from "react";
-import { TableRow, TableCell, Button } from "@material-ui/core";
+import { TableRow, TableCell, Button, makeStyles } from "@material-ui/core";
 import { Link } from "react-router-dom";
 
+const useStyles = makeStyles((theme) => {
+  return {
+    root: {
+      backgroundColor: "#efc5cc",
+    },
+  };
+});
+
 function PolicyTableData(props) {
+  const classes = useStyles();
   const {
     policy,
     handleClickOpenEditModal,
     handleClickOpenRenewalModal,
   } = props;
 
+  const today = new Date();
+
   return (
-    <TableRow hover>
+    <TableRow
+      hover
+      className={
+        new Date(policy.attributes.current_expiry) < today ? classes.root : ""
+      }
+    >
       <TableCell>{policy.attributes.customer_name}</TableCell>
       <TableCell>
         <Link to={`/insurance_policies/${policy.id}`}>
