@@ -176,6 +176,10 @@ function InsurancePoliciesContextProvider(props) {
       });
   };
 
+  const convertToDecimal = (value) => {
+    return Number(value).toFixed(2);
+  };
+
   return (
     <InsurancePoliciesContext.Provider
       value={{
@@ -197,6 +201,7 @@ function InsurancePoliciesContextProvider(props) {
         handleClickSearch: handleClickSearch,
         searchQuery: searchQuery,
         handleClickRefresh: handleClickRefresh,
+        convertToDecimal: convertToDecimal,
       }}
     >
       {props.children}

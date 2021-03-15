@@ -19,7 +19,9 @@ const useStyles = makeStyles((theme) => {
 
 function InsurancePolicyForm(props) {
   const { insurancePolicy, isReadOnly } = props;
-  const { handleChange, handleSubmit } = useContext(InsurancePoliciesContext);
+  const { handleChange, handleSubmit, convertToDecimal } = useContext(
+    InsurancePoliciesContext
+  );
   const classes = useStyles();
 
   return (
@@ -58,9 +60,9 @@ function InsurancePolicyForm(props) {
       </div>
       <div>
         <TextField
-          name="policy_value"
+          name="value"
           label="Policy value"
-          value={insurancePolicy.attributes.value}
+          defaultValue={convertToDecimal(insurancePolicy.attributes.value)}
           InputProps={{
             readOnly: isReadOnly,
           }}

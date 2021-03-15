@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import { TableRow, TableCell, Button, makeStyles } from "@material-ui/core";
 import { Link } from "react-router-dom";
+import { InsurancePoliciesContext } from "../InsurancePoliciesContext";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -18,6 +19,8 @@ function PolicyTableData(props) {
     handleClickOpenRenewalModal,
   } = props;
 
+  const { convertToDecimal } = useContext(InsurancePoliciesContext);
+
   const today = new Date();
 
   return (
@@ -34,7 +37,7 @@ function PolicyTableData(props) {
         </Link>
       </TableCell>
       <TableCell>{policy.attributes.insurer}</TableCell>
-      <TableCell>{policy.attributes.value}</TableCell>
+      <TableCell>{convertToDecimal(policy.attributes.value)}</TableCell>
       <TableCell>{policy.attributes.insurance_type}</TableCell>
       <TableCell>{policy.attributes.current_expiry}</TableCell>
       <TableCell>{policy.attributes.asset}</TableCell>
