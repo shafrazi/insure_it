@@ -21,6 +21,7 @@ const useStyles = makeStyles((theme) => {
       },
     },
   };
+  
 });
 
 function InsurancePolicy() {

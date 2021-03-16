@@ -7,7 +7,14 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Title from "./Title";
-import { Button, Paper, TableContainer, TextField } from "@material-ui/core";
+import {
+  Button,
+  Paper,
+  TableContainer,
+  TableFooter,
+  TablePagination,
+  TextField,
+} from "@material-ui/core";
 import EditInsurancePolicy from "./EditInsurancePolicy";
 import RenewalFormModal from "./RenewalFormModal";
 import PolicyTableData from "./PolicyTableData";
@@ -29,6 +36,15 @@ const useStyles = makeStyles((theme) => ({
 
 export default function InsurancePolicies(props) {
   const classes = useStyles();
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(50);
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
 
   const {
     queryResults,
@@ -89,7 +105,13 @@ export default function InsurancePolicies(props) {
               </TableRow>
             </TableHead>
             <TableBody>
-              {queryResults.map((policy) => {
+              {(rowsPerPage > 0
+                ? queryResults.slice(
+                    page * rowsPerPage,
+                    page * rowsPerPage + rowsPerPage
+                  )
+                : queryResults
+              ).map((policy) => {
                 if (filterType === "all") {
                   return (
                     <PolicyTableData
@@ -115,6 +137,17 @@ export default function InsurancePolicies(props) {
                 }
               })}
             </TableBody>
+            <TableFooter>
+              <TableRow>
+                <TablePagination
+                  rowsPerPage={rowsPerPage}
+                  count={queryResults.length}
+                  onChangePage={handleChangePage}
+                  page={page}
+                  onChangeRowsPerPage={handleChangeRowsPerPage}
+                />
+              </TableRow>
+            </TableFooter>
             {modalInsurancePolicy && <EditInsurancePolicy />}
             {modalInsurancePolicy && <RenewalFormModal />}
           </Table>
