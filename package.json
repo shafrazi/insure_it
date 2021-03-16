@@ -15,12 +15,10 @@
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-router-dom": "^5.2.0",
-    "react-table": "^7.6.3",
     "turbolinks": "^5.2.0"
   },
   "version": "0.1.0",
   "devDependencies": {
-    "react-virtualized": "^9.22.3",
     "webpack-dev-server": "^3.11.2"
   }
 }
