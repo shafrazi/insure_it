@@ -33,7 +33,7 @@ function RenewalFormModal() {
       onClose={handleCloseRenewalModal}
       aria-labelledby="form-dialog-title"
     >
-      <DialogTitle id="form-dialog-title">Add insurance policy</DialogTitle>
+      <DialogTitle id="form-dialog-title">Renew insurance policy</DialogTitle>
       <DialogContent>
         <h3>{modalInsurancePolicy.attributes.customer_name}</h3>
         <form className={classes.root} onSubmit={handleSubmitRenewal}>
